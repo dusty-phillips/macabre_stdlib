@@ -11,7 +11,6 @@ import gleam/int
 import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/string
-import gleam/string_tree.{type StringTree}
 
 /// Type representing the parsed components of a URI.
 /// All components of a URI are optional, except the path.
@@ -548,14 +547,11 @@ pub fn parse_query(query: String) -> Result(List(#(String, String)), Nil)
 pub fn query_to_string(query: List(#(String, String))) -> String {
   query
   |> list.map(query_pair)
-  |> list.intersperse(string_tree.from_string("&"))
-  |> string_tree.concat
-  |> string_tree.to_string
+  |> string.join("&")
 }
 
-fn query_pair(pair: #(String, String)) -> StringTree {
-  [percent_encode_query(pair.0), "=", percent_encode_query(pair.1)]
-  |> string_tree.from_strings
+fn query_pair(pair: #(String, String)) -> String {
+  percent_encode_query(pair.0) <> "=" <> percent_encode_query(pair.1)
 }
 
 fn percent_encode_query(part: String) -> String {
