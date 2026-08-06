@@ -631,31 +631,50 @@ fn remove_dot_segments_loop(
 /// ```
 ///
 pub fn to_string(uri: Uri) -> String {
-  let parts = case uri.fragment {
-    Some(fragment) -> ["#", fragment]
-    None -> []
+  // scheme:[//[userinfo@]host[:port]]path[?query][#fragment]
+
+  let out = case uri.scheme {
+    Some(scheme) -> scheme <> ":"
+    None -> ""
   }
-  let parts = case uri.query {
-    Some(query) -> ["?", query, ..parts]
-    None -> parts
+
+  let out = case uri.host {
+    // Host is mandatory if this is present, so we ignore any port and userinfo
+    // if it is not as they would be invalid.
+    None -> {
+      out <> uri.path
+    }
+
+    Some(host) -> {
+      let out = out <> "//"
+      let out = case uri.userinfo {
+        Some(userinfo) -> out <> userinfo <> "@"
+        None -> out
+      }
+      let out = out <> host
+      let out = case uri.port {
+        Some(port) -> out <> ":" <> int.to_string(port)
+        None -> out
+      }
+      let out = case uri.path {
+        "" -> out
+        "/" <> _ -> out <> uri.path
+        _ -> out <> "/" <> uri.path
+      }
+      out
+    }
   }
-  let parts = [uri.path, ..parts]
-  let parts = case uri.host, string.starts_with(uri.path, "/") {
-    Some(host), False if host != "" -> ["/", ..parts]
-    _, _ -> parts
+
+  let out = case uri.query {
+    Some(query) -> out <> "?" <> query
+    None -> out
   }
-  let parts = case uri.host, uri.port {
-    Some(_), Some(port) -> [":", int.to_string(port), ..parts]
-    _, _ -> parts
+  let out = case uri.fragment {
+    Some(fragment) -> out <> "#" <> fragment
+    None -> out
   }
-  let parts = case uri.scheme, uri.userinfo, uri.host {
-    Some(s), Some(u), Some(h) -> [s, "://", u, "@", h, ..parts]
-    Some(s), None, Some(h) -> [s, "://", h, ..parts]
-    Some(s), Some(_), None | Some(s), None, None -> [s, ":", ..parts]
-    None, None, Some(h) -> ["//", h, ..parts]
-    _, _, _ -> parts
-  }
-  string.concat(parts)
+
+  out
 }
 
 /// Fetches the origin of a URI.
@@ -676,14 +695,12 @@ pub fn to_string(uri: Uri) -> String {
 pub fn origin(uri: Uri) -> Result(String, Nil) {
   let Uri(scheme: scheme, host: host, port: port, ..) = uri
   case host, scheme {
-    Some(h), Some("https") if port == Some(443) ->
-      Ok(string.concat(["https://", h]))
-    Some(h), Some("http") if port == Some(80) ->
-      Ok(string.concat(["http://", h]))
+    Some(h), Some("https") if port == Some(443) -> Ok("https://" <> h)
+    Some(h), Some("http") if port == Some(80) -> Ok("http://" <> h)
     Some(h), Some(s) if s == "http" || s == "https" -> {
       case port {
-        Some(p) -> Ok(string.concat([s, "://", h, ":", int.to_string(p)]))
-        None -> Ok(string.concat([s, "://", h]))
+        Some(p) -> Ok(s <> "://" <> h <> ":" <> int.to_string(p))
+        None -> Ok(s <> "://" <> h)
       }
     }
     _, _ -> Error(Nil)

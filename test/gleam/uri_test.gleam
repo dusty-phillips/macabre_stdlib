@@ -382,7 +382,7 @@ pub fn host_to_string_with_scheme_test() {
       None,
       None,
     ))
-    == "ftp://example.com/"
+    == "ftp://example.com"
 }
 
 pub fn host_to_string_no_scheme_test() {
@@ -395,7 +395,7 @@ pub fn host_to_string_no_scheme_test() {
       None,
       None,
     ))
-    == "//example.com/"
+    == "//example.com"
 }
 
 pub fn host_to_string_with_slash_path_test() {
@@ -457,7 +457,7 @@ pub fn port_to_string_with_scheme_test() {
       None,
       None,
     ))
-    == "ftp://example.com:80/"
+    == "ftp://example.com:80"
 }
 
 pub fn port_to_string_no_scheme_test() {
@@ -470,7 +470,7 @@ pub fn port_to_string_no_scheme_test() {
       None,
       None,
     ))
-    == "//example.com:40/"
+    == "//example.com:40"
 }
 
 pub fn port_to_string_with_slash_path_test() {

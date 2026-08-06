@@ -1,8 +1,10 @@
 # Changelog
 
-## v1.0.5 - 2026-08-05
+## v1.0.5 - 2026-08-06
 
 - Fixed a bug where `bit_array.pad_to_bytes` could crash.
+- Fixed a bug where `uri.to_string` would incorrectly append a `/` for URIs
+  with no path.
 
 ## v1.0.4 - 2026-05-30
 
