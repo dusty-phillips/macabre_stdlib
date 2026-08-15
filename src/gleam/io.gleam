@@ -10,6 +10,7 @@
 /// ```
 ///
 @external(erlang, "gleam_stdlib", "print")
+@external(python, "gleam.io_bindings", "do_print")
 @external(javascript, "../gleam_stdlib.mjs", "print")
 pub fn print(string: String) -> Nil
 
@@ -25,6 +26,7 @@ pub fn print(string: String) -> Nil
 /// ```
 ///
 @external(erlang, "gleam_stdlib", "print_error")
+@external(python, "gleam.io_bindings", "do_print_error")
 @external(javascript, "../gleam_stdlib.mjs", "print_error")
 pub fn print_error(string: String) -> Nil
 
@@ -38,6 +40,7 @@ pub fn print_error(string: String) -> Nil
 /// ```
 ///
 @external(erlang, "gleam_stdlib", "println")
+@external(python, "gleam.io_bindings", "do_println")
 @external(javascript, "../gleam_stdlib.mjs", "console_log")
 pub fn println(string: String) -> Nil
 
@@ -51,5 +54,6 @@ pub fn println(string: String) -> Nil
 /// ```
 ///
 @external(erlang, "gleam_stdlib", "println_error")
+@external(python, "gleam.io_bindings", "do_println_error")
 @external(javascript, "../gleam_stdlib.mjs", "console_error")
 pub fn println_error(string: String) -> Nil

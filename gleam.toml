@@ -1,14 +1,10 @@
 name = "gleam_stdlib"
 version = "1.0.5"
-gleam = ">= 1.14.0"
+
 licences = ["Apache-2.0"]
 description = "A standard library for the Gleam programming language"
 
-repository = { type = "github", user = "gleam-lang", repo = "stdlib" }
-links = [
-  { title = "Website", href = "https://gleam.run" },
-  { title = "Sponsor", href = "https://github.com/sponsors/lpil" },
-]
+repository = { type = "github", user = "dusty-phillips", repo = "macabre_stdlib" }
 
-[javascript.deno]
-allow_read = ["./"]
+[dev-dependencies]
+gleeunit = { git = "git@github.com:dusty-phillips/macabre_gleeunit.git", ref = "main" }

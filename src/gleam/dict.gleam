@@ -26,12 +26,14 @@ type TransientDict(key, value)
 /// Convert a normal Dict to a transient dict.
 /// A transient dict is a mutable copy of the original.
 @external(erlang, "gleam_stdlib", "identity")
+@external(python, "gleam.dict_bindings", "to_transient")
 @external(javascript, "../dict.mjs", "toTransient")
 fn to_transient(dict: Dict(key, value)) -> TransientDict(key, value)
 
 /// Convert a transient dict back into a normal dict, freezing its contents.
 /// Using the transient after this point is highly unsafe and leads to undefined behavior.
 @external(erlang, "gleam_stdlib", "identity")
+@external(python, "gleam.dict_bindings", "from_transient")
 @external(javascript, "../dict.mjs", "fromTransient")
 fn from_transient(transient: TransientDict(key, value)) -> Dict(key, value)
 
@@ -49,6 +51,7 @@ fn from_transient(transient: TransientDict(key, value)) -> Dict(key, value)
 /// ```
 ///
 @external(erlang, "maps", "size")
+@external(python, "gleam.dict_bindings", "size")
 @external(javascript, "../dict.mjs", "size")
 pub fn size(dict: Dict(k, v)) -> Int
 
@@ -137,11 +140,13 @@ pub fn has_key(dict: Dict(k, v), key: k) -> Bool {
 }
 
 @external(erlang, "maps", "is_key")
+@external(python, "gleam.dict_bindings", "do_has_key")
 fn do_has_key(key: k, dict: Dict(k, v)) -> Bool
 
 /// Creates a fresh dict that contains no values.
 ///
 @external(erlang, "maps", "new")
+@external(python, "gleam.dict_bindings", "do_new")
 @external(javascript, "../dict.mjs", "make")
 pub fn new() -> Dict(k, v)
 
@@ -161,6 +166,7 @@ pub fn new() -> Dict(k, v)
 /// ```
 ///
 @external(erlang, "gleam_stdlib", "map_get")
+@external(python, "gleam.dict_bindings", "do_get")
 @external(javascript, "../dict.mjs", "get")
 pub fn get(from: Dict(k, v), get: k) -> Result(v, Nil)
 
@@ -190,9 +196,11 @@ pub fn insert(
 }
 
 @external(erlang, "maps", "put")
+@external(python, "gleam.dict_bindings", "do_insert")
 fn do_insert(key: k, value: v, dict: Dict(k, v)) -> Dict(k, v)
 
 @external(erlang, "maps", "put")
+@external(python, "gleam.dict_bindings", "transient_insert")
 @external(javascript, "../dict.mjs", "destructiveTransientInsert")
 fn transient_insert(
   key: k,
@@ -217,6 +225,7 @@ pub fn map_values(in dict: Dict(k, v), with fun: fn(k, v) -> a) -> Dict(k, a) {
 }
 
 @external(erlang, "maps", "map")
+@external(python, "gleam.dict_bindings", "do_map_values")
 fn do_map_values(f: fn(k, v) -> a, dict: Dict(k, v)) -> Dict(k, a)
 
 /// Gets a list of all keys in a given dict.
@@ -374,6 +383,7 @@ pub fn delete(from dict: Dict(k, v), delete key: k) -> Dict(k, v) {
 }
 
 @external(erlang, "maps", "remove")
+@external(python, "gleam.dict_bindings", "transient_delete")
 @external(javascript, "../dict.mjs", "destructiveTransientDelete")
 fn transient_delete(a: k, b: TransientDict(k, v)) -> TransientDict(k, v)
 
@@ -490,6 +500,7 @@ pub fn fold(
 }
 
 @external(erlang, "maps", "fold")
+@external(python, "gleam.dict_bindings", "do_fold")
 fn do_fold(fun: fn(k, v, acc) -> acc, initial: acc, dict: Dict(k, v)) -> acc
 
 /// Calls a function for each key and value in a dict, discarding the return
@@ -561,6 +572,7 @@ fn do_combine(
 }
 
 @external(erlang, "maps", "update_with")
+@external(python, "gleam.dict_bindings", "transient_update_with")
 @external(javascript, "../dict.mjs", "destructiveTransientUpdateWith")
 fn transient_update_with(
   key: k,

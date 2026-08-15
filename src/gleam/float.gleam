@@ -45,6 +45,7 @@ import gleam/order.{type Order}
 /// ```
 ///
 @external(erlang, "gleam_stdlib", "parse_float")
+@external(python, "gleam.float_bindings", "do_parse")
 @external(javascript, "../gleam_stdlib.mjs", "parse_float")
 pub fn parse(string: String) -> Result(Float, Nil)
 
@@ -57,6 +58,7 @@ pub fn parse(string: String) -> Result(Float, Nil)
 /// ```
 ///
 @external(erlang, "gleam_stdlib", "float_to_string")
+@external(python, "gleam.float_bindings", "do_to_string")
 @external(javascript, "../gleam_stdlib.mjs", "float_to_string")
 pub fn to_string(x: Float) -> String
 
@@ -205,6 +207,7 @@ pub fn max(a: Float, b: Float) -> Float {
 /// ```
 ///
 @external(erlang, "math", "ceil")
+@external(python, "gleam.float_bindings", "do_ceiling")
 @external(javascript, "../gleam_stdlib.mjs", "ceiling")
 pub fn ceiling(x: Float) -> Float
 
@@ -217,6 +220,7 @@ pub fn ceiling(x: Float) -> Float
 /// ```
 ///
 @external(erlang, "math", "floor")
+@external(python, "gleam.float_bindings", "do_floor")
 @external(javascript, "../gleam_stdlib.mjs", "floor")
 pub fn floor(x: Float) -> Float
 
@@ -233,6 +237,7 @@ pub fn floor(x: Float) -> Float
 /// ```
 ///
 @external(erlang, "erlang", "round")
+@external(python, "gleam.float_bindings", "do_round")
 pub fn round(x: Float) -> Int {
   case x >=. 0.0 {
     True -> js_round(x)
@@ -252,6 +257,7 @@ fn js_round(a: Float) -> Int
 /// ```
 ///
 @external(erlang, "erlang", "trunc")
+@external(python, "gleam.float_bindings", "do_truncate")
 @external(javascript, "../gleam_stdlib.mjs", "truncate")
 pub fn truncate(x: Float) -> Int
 
@@ -284,6 +290,7 @@ pub fn to_precision(x: Float, precision: Int) -> Float {
 }
 
 @external(erlang, "erlang", "float")
+@external(python, "gleam.float_bindings", "do_to_float")
 @external(javascript, "../gleam_stdlib.mjs", "identity")
 fn do_to_float(a: Int) -> Float
 
@@ -346,6 +353,7 @@ pub fn power(base: Float, of exponent: Float) -> Result(Float, Nil) {
 }
 
 @external(erlang, "math", "pow")
+@external(python, "gleam.float_bindings", "do_power")
 @external(javascript, "../gleam_stdlib.mjs", "power")
 fn do_power(a: Float, b: Float) -> Float
 
@@ -429,6 +437,7 @@ fn product_loop(numbers: List(Float), initial: Float) -> Float {
 /// ```
 ///
 @external(erlang, "rand", "uniform")
+@external(python, "gleam.float_bindings", "random")
 @external(javascript, "../gleam_stdlib.mjs", "random_uniform")
 pub fn random() -> Float
 
@@ -596,6 +605,7 @@ pub fn logarithm(x: Float) -> Result(Float, Nil) {
 }
 
 @external(erlang, "math", "log")
+@external(python, "gleam.float_bindings", "do_log")
 @external(javascript, "../gleam_stdlib.mjs", "log")
 fn do_log(x: Float) -> Float
 
@@ -617,5 +627,6 @@ fn do_log(x: Float) -> Float
 /// ```
 ///
 @external(erlang, "math", "exp")
+@external(python, "gleam.float_bindings", "do_exp")
 @external(javascript, "../gleam_stdlib.mjs", "exp")
 pub fn exponential(x: Float) -> Float
