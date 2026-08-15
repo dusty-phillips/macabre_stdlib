@@ -183,7 +183,20 @@ def _graphemes(string: str) -> list[str]:
 def do_pop_grapheme(string: str) -> Ok | Error:
     if string == "":
         return Error(Nil)
-    first = _graphemes(string)[0]
+    if _grapheme_regex is not None:
+        first = _grapheme_regex.match(string).group(0)
+    else:
+        # Scan only as far as the first grapheme boundary instead of
+        # splitting the whole string into graphemes, which is O(n) per pop
+        # and turns repeated pops into O(n^2).
+        first = string
+        prev = None
+        for i, ch in enumerate(string):
+            cp = ord(ch)
+            if prev is not None and not _is_continuation(prev, cp):
+                first = string[:i]
+                break
+            prev = cp
     return Ok((first, string[len(first) :]))
 
 
