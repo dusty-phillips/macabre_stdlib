@@ -16,13 +16,13 @@ def bit_size(x: bytes) -> int:
     return len(x) * 8
 
 
-def slice(bits: bytes, position: int, length: int) -> Ok | Error:
+def slice(string: bytes, position: int, length: int) -> Ok | Error:
     try:
         start = min(position, position + length)
         end = max(position, position + length)
-        if start < 0 or end > len(bits):
+        if start < 0 or end > len(string):
             return Error(Nil)
-        return Ok(bits[start:end])
+        return Ok(string[start:end])
     except (IndexError, TypeError):
         return Error(Nil)
 

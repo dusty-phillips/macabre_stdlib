@@ -68,8 +68,8 @@ def erl_split(a: str, b: str, c) -> GleamList[str] | None:
     return result
 
 
-def replace(builder: str, pattern: str, substitute: str) -> str:
-    return builder.replace(pattern, substitute)
+def replace(tree: str, pattern: str, substitute: str) -> str:
+    return tree.replace(pattern, substitute)
 
 
 def is_equal(a: str, b: str) -> bool:
