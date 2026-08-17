@@ -89,7 +89,7 @@ def do_delete(key, dict: dict) -> dict:
 
 
 def to_transient(dict: dict) -> dict:
-    return dict
+    return dict.copy()
 
 
 def from_transient(transient: dict) -> dict:
@@ -97,25 +97,21 @@ def from_transient(transient: dict) -> dict:
 
 
 def transient_insert(key, value, transient: dict) -> dict:
-    result = transient.copy()
-    result[key] = value
-    return result
+    transient[key] = value
+    return transient
 
 
 def transient_delete(key, transient: dict) -> dict:
-    result = transient.copy()
-    if key in result:
-        del result[key]
-    return result
+    transient.pop(key, None)
+    return transient
 
 
 def transient_update_with(key, fun, init, transient: dict) -> dict:
-    result = transient.copy()
-    if key in result:
-        result[key] = fun(result[key])
+    if key in transient:
+        transient[key] = fun(transient[key])
     else:
-        result[key] = init
-    return result
+        transient[key] = init
+    return transient
 
 
 def do_fold(fun, initial, dict: dict):
