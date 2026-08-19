@@ -266,6 +266,12 @@ pub fn drop_start(from string: String, up_to num_graphemes: Int) -> String {
   }
 }
 
+/// Alias for `drop_start` to match the older gleam_stdlib naming used by some
+/// upstream packages (e.g. dedent).
+pub fn drop_left(from string: String, up_to num_graphemes: Int) -> String {
+  drop_start(from, num_graphemes)
+}
+
 /// Drops *n* graphemes from the end of a `String`.
 ///
 /// This function traverses the full string, so it runs in linear time with the
