@@ -66,11 +66,15 @@ def do_split_once(x: str, substring: str) -> Ok | Error:
 
 
 def erl_split(a: str, b: str) -> GleamList[str] | None:
-    parts = a.split(b)
-    result = EmptyGleamList()
-    for part in reversed(parts):
-        result = GleamList(part, result)
-    return result
+    # Mirrors Erlang string:split/2, which splits on the FIRST occurrence and
+    # returns a two-element list [before, after]. string.split_once matches
+    # that shape exactly and reports an error when the substring is absent.
+    idx = a.find(b)
+    if idx < 0:
+        return EmptyGleamList()
+    before = a[:idx]
+    after = a[idx + len(b):]
+    return GleamList(before, GleamList(after, EmptyGleamList()))
 
 
 def do_join(strings: GleamList[str] | None, separator: str) -> str:
