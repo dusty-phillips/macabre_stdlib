@@ -3,7 +3,7 @@ import math
 import re as _re
 import unicodedata
 
-from gleam_builtins import EmptyGleamList, GleamList, Ok, Error, Nil
+from gleam_builtins import EmptyGleamList, GleamList, GleamBitArray, Ok, Error, Nil
 
 try:
     import regex as _regex
@@ -262,6 +262,8 @@ def _inspect_string(a: str) -> str:
 def do_inspect(term) -> str:
     if isinstance(term, str):
         return _inspect_string(term)
+    if isinstance(term, UtfCodepoint):
+        return str(term.value)
     if term is True or term is False:
         return "True" if term else "False"
     if term is None:
@@ -283,6 +285,8 @@ def do_inspect(term) -> str:
         return "dict.from_list([" + entries + "])"
     if isinstance(term, bytes):
         return _inspect_bytes(term)
+    if isinstance(term, GleamBitArray):
+        return _inspect_bit_array(term)
     if dataclasses.is_dataclass(term):
         name = type(term).__name__
         values = ", ".join(
@@ -315,6 +319,21 @@ def _inspect_bytes(data: bytes) -> str:
     except UnicodeDecodeError:
         values = ", ".join(str(byte) for byte in data)
         return "<<" + values + ">>"
+
+
+def _inspect_bit_array(term: GleamBitArray) -> str:
+    data = term.data
+    bits = term.bits
+    if bits == 0:
+        return "<<>>"
+    full = bits // 8
+    rest = bits % 8
+    parts = [str(byte) for byte in data[:full]]
+    if rest:
+        last_byte = data[full] if full < len(data) else 0
+        value = last_byte >> (8 - rest)
+        parts.append(f"{value}:size({rest})")
+    return "<<" + ", ".join(parts) + ">>"
 
 
 def byte_size(string: str) -> int:
