@@ -32,7 +32,7 @@ def do_classify(data):
         return "Dict"
     if isinstance(data, _option.Some):
         return "Some"
-    if data is None:
+    if isinstance(data, _option.None_):
         return "None"
     return "CustomType"
 
