@@ -89,6 +89,12 @@ pub fn compare(a: Order, with b: Order) -> Order {
 /// assert list.sort([1, 5, 4], by: order.reverse(int.compare)) == [5, 4, 1]
 /// ```
 ///
+// The Rust target cannot yet represent a closure in return position (a
+// value of function type needs boxing), so this is provided as an external
+// that the Rust backend drops (falling back to the closure body on other
+// targets). Programs that call `order.reverse` on Rust must wait for real
+// function-value support.
+@external(rust, "gleam_builtins", "gb_unimplemented_order_reverse")
 pub fn reverse(orderer: fn(a, a) -> Order) -> fn(a, a) -> Order {
   fn(a, b) { orderer(b, a) }
 }

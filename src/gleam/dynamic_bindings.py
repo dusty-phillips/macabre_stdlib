@@ -53,6 +53,8 @@ def bare_index(data, key):
     `"Dict"` otherwise)."""
     import gleam.option as _option
 
+    none = _option.None_()
+
     if isinstance(data, (GleamList, EmptyGleamList)):
         if isinstance(key, int):
             index = 0
@@ -62,18 +64,18 @@ def bare_index(data, key):
                     return Ok(_option.Some(node.value))
                 node = node.tail
                 index = index + 1
-            return Ok(None)
+            return Ok(none)
         return Error("Dict")
     if isinstance(data, tuple):
         if isinstance(key, int):
             if 0 <= key < len(data):
                 return Ok(_option.Some(data[key]))
-            return Ok(None)
+            return Ok(none)
         return Error("Dict")
     if isinstance(data, dict):
         if key in data:
             return Ok(_option.Some(data[key]))
-        return Ok(None)
+        return Ok(none)
     if isinstance(key, int):
         return Error("Indexable")
     return Error("Dict")

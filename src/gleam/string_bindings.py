@@ -1,4 +1,5 @@
 import dataclasses
+import inspect
 import math
 import re as _re
 import unicodedata
@@ -287,8 +288,39 @@ def do_inspect(term) -> str:
         return _inspect_bytes(term)
     if isinstance(term, GleamBitArray):
         return _inspect_bit_array(term)
+    if callable(term) and not isinstance(term, type):
+        # A Gleam function value. Erlang's inspect renders these as
+        # `//fn(a, b) { ... }` with argument names generated from `a`.
+        try:
+            parameters = list(
+                inspect.signature(term).parameters.values()
+            )
+            arity = len([
+                parameter for parameter in parameters
+                if parameter.kind in (
+                    inspect.Parameter.POSITIONAL_ONLY,
+                    inspect.Parameter.POSITIONAL_OR_KEYWORD,
+                    inspect.Parameter.KEYWORD_ONLY,
+                )
+            ])
+        except (TypeError, ValueError):
+            arity = 0
+        names = []
+        for index in range(arity):
+            if index < 26:
+                names.append(chr(97 + index))
+            else:
+                names.append(chr(97 + index // 26 - 1) + chr(97 + index % 26))
+        return "//fn(" + ", ".join(names) + ") { ... }"
     if dataclasses.is_dataclass(term):
         name = type(term).__name__
+        # Constructors whose names are Python keywords are emitted with a
+        # trailing underscore (e.g. option's `None` as `None_`); render the
+        # original Gleam name.
+        if name.endswith("_") and name[:-1] in (
+            "True", "False", "None",
+        ):
+            name = name[:-1]
         values = ", ".join(
             do_inspect(getattr(term, field.name))
             for field in dataclasses.fields(term)
