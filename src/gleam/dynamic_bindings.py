@@ -154,6 +154,13 @@ def decode_list(data, item, push_path, index, acc):
                 data.tail, item, push_path, index + 1, GleamList(out, acc)
             )
         return push_path((EmptyGleamList(), errors), index)
+    # A python tuple (or list) is the dynamic representation produced by
+    # `dynamic.array`, so it decodes as a list too.
+    if isinstance(data, (tuple, list)):
+        converted = EmptyGleamList()
+        for element in reversed(data):
+            converted = GleamList(element, converted)
+        return decode_list(converted, item, push_path, index, acc)
     if _gleam_list_is_empty(acc):
         error = _decode.DecodeError("List", do_classify(data), EmptyGleamList())
         return (EmptyGleamList(), _gleam_list_from_python([error]))
