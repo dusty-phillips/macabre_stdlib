@@ -1,3 +1,4 @@
+import gleam/list
 import gleam/option.{type Option}
 
 /// A dictionary of keys and values.
@@ -98,7 +99,10 @@ pub fn is_empty(dict: Dict(k, v)) -> Bool {
 ///
 @external(erlang, "maps", "to_list")
 pub fn to_list(dict: Dict(k, v)) -> List(#(k, v)) {
+  // The Erlang external returns entries in ascending key order; the fallback
+  // body folds in that same order but prepends, so it must reverse to match.
   fold(dict, from: [], with: fn(acc, key, value) { [#(key, value), ..acc] })
+  |> list.reverse
 }
 
 /// Converts a list of 2-element tuples `#(key, value)` to a dict.
@@ -243,6 +247,7 @@ fn do_map_values(f: fn(k, v) -> a, dict: Dict(k, v)) -> Dict(k, a)
 @external(erlang, "maps", "keys")
 pub fn keys(dict: Dict(k, v)) -> List(k) {
   fold(dict, [], fn(acc, key, _value) { [key, ..acc] })
+  |> list.reverse
 }
 
 /// Gets a list of all values in a given dict.
@@ -260,6 +265,7 @@ pub fn keys(dict: Dict(k, v)) -> List(k) {
 @external(erlang, "maps", "values")
 pub fn values(dict: Dict(k, v)) -> List(v) {
   fold(dict, [], fn(acc, _key, value) { [value, ..acc] })
+  |> list.reverse
 }
 
 /// Creates a new dict from a given dict, minus any entries that a given function

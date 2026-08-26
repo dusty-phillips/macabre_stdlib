@@ -1,13 +1,44 @@
 from gleam_builtins import EmptyGleamList, GleamList, GleamListElem, Ok, Error, Nil
 
 
+def _term_key(key):
+    # Erlang's flatmaps (maps up to 32 entries, which is what most Gleam code
+    # produces) iterate in ascending term order of their keys, while Python
+    # dicts iterate in insertion order. Snapshot-style goldens recorded on the
+    # Erlang target therefore expect sorted iteration. Rank keys by the Erlang
+    # term order (number < atom < tuple < list < binary) so the common cases -
+    # homogeneous string or int keys - match exactly. Each rank's payloads are
+    # mutually comparable, and ranks order the payload classes before values
+    # are ever compared across ranks.
+    if isinstance(key, bool):
+        return (1, str(key).lower())
+    if isinstance(key, (int, float)):
+        return (0, key)
+    if isinstance(key, tuple):
+        return (2, tuple(_term_key(element) for element in key))
+    if isinstance(key, GleamList):
+        elements = []
+        head = key
+        while isinstance(head, GleamList):
+            elements.append(_term_key(head.value))
+            head = head.tail
+        return (3, tuple(elements))
+    if isinstance(key, str):
+        return (4, key.encode("utf-8"))
+    return (5, repr(key))
+
+
+def _sorted_items(dict: dict):
+    return sorted(dict.items(), key=lambda item: _term_key(item[0]))
+
+
 def size(dict: dict) -> int:
     return len(dict)
 
 
 def to_list(dict: dict) -> GleamList[tuple] | None:
     result = EmptyGleamList()
-    for key, value in reversed(list(dict.items())):
+    for key, value in reversed(_sorted_items(dict)):
         result = GleamList((key, value), result)
     return result
 
@@ -48,14 +79,14 @@ def do_map_values(f, dict: dict) -> dict:
 
 def do_keys(dict: dict) -> GleamList[GleamListElem] | None:
     result = EmptyGleamList()
-    for key in reversed(list(dict.keys())):
+    for key, _ in reversed(_sorted_items(dict)):
         result = GleamList(key, result)
     return result
 
 
 def do_values(dict: dict) -> GleamList[GleamListElem] | None:
     result = EmptyGleamList()
-    for value in reversed(list(dict.values())):
+    for _, value in reversed(_sorted_items(dict)):
         result = GleamList(value, result)
     return result
 
@@ -116,6 +147,6 @@ def transient_update_with(key, fun, init, transient: dict) -> dict:
 
 def do_fold(fun, initial, dict: dict):
     acc = initial
-    for key, value in dict.items():
+    for key, value in _sorted_items(dict):
         acc = fun(key, value, acc)
     return acc
