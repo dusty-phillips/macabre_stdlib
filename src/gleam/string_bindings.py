@@ -373,7 +373,7 @@ def byte_size(string: str) -> int:
 
 
 def unsafe_byte_slice(string: str, index: int, length: int) -> str:
-    return string[index : index + length]
+    return string.encode("utf-8")[index : index + length].decode("utf-8")
 
 
 def remove_prefix(string: str, prefix: str) -> str:
