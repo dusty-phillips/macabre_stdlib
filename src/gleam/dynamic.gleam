@@ -26,6 +26,7 @@ pub type Dynamic
 ///
 @external(erlang, "gleam_stdlib", "classify_dynamic")
 @external(python, "gleam.dynamic_bindings", "do_classify")
+@external(rust, "gleam_dynamic_bindings", "classify")
 @external(javascript, "../gleam_stdlib.mjs", "classify_dynamic")
 pub fn classify(data: Dynamic) -> String
 
@@ -33,6 +34,7 @@ pub fn classify(data: Dynamic) -> String
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.dynamic_bindings", "identity")
+@external(rust, "gleam_dynamic_bindings", "bool")
 @external(javascript, "../gleam_stdlib.mjs", "identity")
 pub fn bool(a: Bool) -> Dynamic
 
@@ -42,6 +44,7 @@ pub fn bool(a: Bool) -> Dynamic
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.dynamic_bindings", "identity")
+@external(rust, "gleam_dynamic_bindings", "string")
 @external(javascript, "../gleam_stdlib.mjs", "identity")
 pub fn string(a: String) -> Dynamic
 
@@ -49,6 +52,7 @@ pub fn string(a: String) -> Dynamic
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.dynamic_bindings", "identity")
+@external(rust, "gleam_dynamic_bindings", "float")
 @external(javascript, "../gleam_stdlib.mjs", "identity")
 pub fn float(a: Float) -> Dynamic
 
@@ -56,6 +60,7 @@ pub fn float(a: Float) -> Dynamic
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.dynamic_bindings", "identity")
+@external(rust, "gleam_dynamic_bindings", "int")
 @external(javascript, "../gleam_stdlib.mjs", "identity")
 pub fn int(a: Int) -> Dynamic
 
@@ -63,6 +68,7 @@ pub fn int(a: Int) -> Dynamic
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.dynamic_bindings", "identity")
+@external(rust, "gleam_dynamic_bindings", "bit_array")
 @external(javascript, "../gleam_stdlib.mjs", "identity")
 pub fn bit_array(a: BitArray) -> Dynamic
 
@@ -70,6 +76,7 @@ pub fn bit_array(a: BitArray) -> Dynamic
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.dynamic_bindings", "identity")
+@external(rust, "gleam_dynamic_bindings", "list")
 @external(javascript, "../gleam_stdlib.mjs", "identity")
 pub fn list(a: List(Dynamic)) -> Dynamic
 
@@ -80,6 +87,7 @@ pub fn list(a: List(Dynamic)) -> Dynamic
 ///
 @external(erlang, "erlang", "list_to_tuple")
 @external(python, "gleam.dynamic_bindings", "list_to_tuple")
+@external(rust, "gleam_dynamic_bindings", "array")
 @external(javascript, "../gleam_stdlib.mjs", "list_to_array")
 pub fn array(a: List(Dynamic)) -> Dynamic
 
@@ -104,5 +112,6 @@ pub fn nil() -> Dynamic {
 
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.dynamic_bindings", "identity")
+@external(rust, "gleam_dynamic_bindings", "cast")
 @external(javascript, "../gleam_stdlib.mjs", "identity")
 fn cast(a: anything) -> Dynamic

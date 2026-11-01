@@ -58,6 +58,7 @@ pub fn prepend_tree(
 ///
 @external(erlang, "gleam_stdlib", "iodata_append")
 @external(python, "gleam.string_tree_bindings", "do_append")
+@external(rust, "gleam_string_tree_bindings", "append_tree")
 @external(javascript, "../gleam_stdlib.mjs", "add")
 pub fn append_tree(to tree: StringTree, suffix suffix: StringTree) -> StringTree
 
@@ -67,6 +68,7 @@ pub fn append_tree(to tree: StringTree, suffix suffix: StringTree) -> StringTree
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.string_tree_bindings", "do_from_strings")
+@external(rust, "gleam_string_tree_bindings", "from_strings")
 @external(javascript, "../gleam_stdlib.mjs", "concat")
 pub fn from_strings(strings: List(String)) -> StringTree
 
@@ -76,6 +78,7 @@ pub fn from_strings(strings: List(String)) -> StringTree
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.string_tree_bindings", "do_concat")
+@external(rust, "gleam_string_tree_bindings", "concat")
 @external(javascript, "../gleam_stdlib.mjs", "concat")
 pub fn concat(trees: List(StringTree)) -> StringTree
 
@@ -85,6 +88,7 @@ pub fn concat(trees: List(StringTree)) -> StringTree
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.string_tree_bindings", "do_from_string")
+@external(rust, "gleam_string_tree_bindings", "from_string")
 @external(javascript, "../gleam_stdlib.mjs", "identity")
 pub fn from_string(string: String) -> StringTree
 
@@ -95,6 +99,7 @@ pub fn from_string(string: String) -> StringTree
 ///
 @external(erlang, "unicode", "characters_to_binary")
 @external(python, "gleam.string_tree_bindings", "do_to_string")
+@external(rust, "gleam_string_tree_bindings", "to_string")
 @external(javascript, "../gleam_stdlib.mjs", "identity")
 pub fn to_string(tree: StringTree) -> String
 
@@ -102,6 +107,7 @@ pub fn to_string(tree: StringTree) -> String
 ///
 @external(erlang, "erlang", "iolist_size")
 @external(python, "gleam.string_tree_bindings", "do_byte_size")
+@external(rust, "gleam_string_tree_bindings", "byte_size")
 @external(javascript, "../gleam_stdlib.mjs", "length")
 pub fn byte_size(tree: StringTree) -> Int
 
@@ -118,6 +124,7 @@ pub fn join(trees: List(StringTree), with sep: String) -> StringTree {
 ///
 @external(erlang, "string", "lowercase")
 @external(python, "gleam.string_tree_bindings", "do_lowercase")
+@external(rust, "gleam_string_tree_bindings", "lowercase")
 @external(javascript, "../gleam_stdlib.mjs", "lowercase")
 pub fn lowercase(tree: StringTree) -> StringTree
 
@@ -126,6 +133,7 @@ pub fn lowercase(tree: StringTree) -> StringTree
 ///
 @external(erlang, "string", "uppercase")
 @external(python, "gleam.string_tree_bindings", "do_uppercase")
+@external(rust, "gleam_string_tree_bindings", "uppercase")
 @external(javascript, "../gleam_stdlib.mjs", "uppercase")
 pub fn uppercase(tree: StringTree) -> StringTree
 
@@ -141,6 +149,7 @@ pub fn reverse(tree: StringTree) -> StringTree {
 }
 
 @external(javascript, "../gleam_stdlib.mjs", "graphemes")
+@external(rust, "gleam_string_tree_bindings", "do_to_graphemes")
 @external(python, "gleam.string_tree_bindings", "do_to_graphemes")
 fn do_to_graphemes(string: String) -> List(String)
 
@@ -156,6 +165,7 @@ pub fn split(tree: StringTree, on pattern: String) -> List(StringTree) {
 }
 
 @external(erlang, "string", "split")
+@external(rust, "gleam_string_tree_bindings", "erl_split")
 @external(python, "gleam.string_tree_bindings", "erl_split")
 fn erl_split(a: StringTree, b: String, c: Direction) -> List(StringTree)
 
@@ -163,6 +173,7 @@ fn erl_split(a: StringTree, b: String, c: Direction) -> List(StringTree)
 ///
 @external(erlang, "gleam_stdlib", "string_replace")
 @external(python, "gleam.string_tree_bindings", "replace")
+@external(rust, "gleam_string_tree_bindings", "replace")
 @external(javascript, "../gleam_stdlib.mjs", "string_replace")
 pub fn replace(
   in tree: StringTree,

@@ -11,6 +11,7 @@ import gleam/string
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.bit_array_bindings", "from_string")
+@external(rust, "gleam_bit_array_bindings", "from_string")
 @external(javascript, "../gleam_stdlib.mjs", "bit_array_from_string")
 pub fn from_string(x: String) -> BitArray
 
@@ -18,6 +19,7 @@ pub fn from_string(x: String) -> BitArray
 ///
 @external(erlang, "erlang", "bit_size")
 @external(python, "gleam.bit_array_bindings", "bit_size")
+@external(rust, "gleam_bit_array_bindings", "bit_size")
 @external(javascript, "../gleam_stdlib.mjs", "bit_array_bit_size")
 pub fn bit_size(x: BitArray) -> Int
 
@@ -25,6 +27,7 @@ pub fn bit_size(x: BitArray) -> Int
 ///
 @external(erlang, "erlang", "byte_size")
 @external(python, "gleam.bit_array_bindings", "byte_size")
+@external(rust, "gleam_bit_array_bindings", "byte_size")
 @external(javascript, "../gleam_stdlib.mjs", "bit_array_byte_size")
 pub fn byte_size(x: BitArray) -> Int
 
@@ -66,6 +69,7 @@ pub fn append(to first: BitArray, suffix second: BitArray) -> BitArray {
 ///
 @external(erlang, "gleam_stdlib", "bit_array_slice")
 @external(python, "gleam.bit_array_bindings", "slice")
+@external(rust, "gleam_bit_array_bindings", "slice")
 @external(javascript, "../gleam_stdlib.mjs", "bit_array_slice")
 pub fn slice(
   from string: BitArray,
@@ -79,6 +83,9 @@ pub fn is_utf8(bits: BitArray) -> Bool {
   is_utf8_loop(bits)
 }
 
+// The two `@target` variants below do not apply to Rust, so the Rust target
+// would otherwise get no implementation at all. Declaring the binding here
+// keeps the implementation in its owning package rather than the compiler.
 @target(erlang)
 fn is_utf8_loop(bits: BitArray) -> Bool {
   case bits {
@@ -96,8 +103,12 @@ fn is_utf8_loop(bits: BitArray) -> Bool {
   }
 }
 
+// Neither `@target` body above applies to Rust, and this external declaration
+// is the definition the Rust target sees (it does not filter by `@target`), so
+// the Rust binding belongs here — otherwise Rust gets no implementation.
 @target(python)
 @external(python, "gleam.bit_array_bindings", "do_is_utf8")
+@external(rust, "gleam_bit_array_bindings", "is_utf8_loop")
 fn is_utf8_loop(bits: BitArray) -> Bool
 
 /// Converts a bit array to a string.
@@ -113,6 +124,7 @@ pub fn to_string(bits: BitArray) -> Result(String, Nil) {
 }
 
 @external(erlang, "gleam_stdlib", "identity")
+@external(rust, "gleam_bit_array_bindings", "unsafe_to_string")
 @external(python, "gleam.bit_array_bindings", "unsafe_to_string")
 fn unsafe_to_string(a: BitArray) -> String
 
@@ -130,6 +142,7 @@ fn unsafe_to_string(a: BitArray) -> String
 ///
 @external(erlang, "gleam_stdlib", "bit_array_concat")
 @external(python, "gleam.bit_array_bindings", "concat")
+@external(rust, "gleam_bit_array_bindings", "concat")
 @external(javascript, "../gleam_stdlib.mjs", "bit_array_concat")
 pub fn concat(bit_arrays: List(BitArray)) -> BitArray
 
@@ -140,6 +153,7 @@ pub fn concat(bit_arrays: List(BitArray)) -> BitArray
 ///
 @external(erlang, "gleam_stdlib", "base64_encode")
 @external(python, "gleam.bit_array_bindings", "base64_encode")
+@external(rust, "gleam_bit_array_bindings", "base64_encode")
 @external(javascript, "../gleam_stdlib.mjs", "base64_encode")
 pub fn base64_encode(input: BitArray, padding: Bool) -> String
 
@@ -155,6 +169,7 @@ pub fn base64_decode(encoded: String) -> Result(BitArray, Nil) {
 
 @external(erlang, "gleam_stdlib", "base64_decode")
 @external(python, "gleam.bit_array_bindings", "decode64")
+@external(rust, "gleam_bit_array_bindings", "decode64")
 @external(javascript, "../gleam_stdlib.mjs", "base64_decode")
 fn decode64(a: String) -> Result(BitArray, Nil)
 
@@ -188,6 +203,7 @@ pub fn base64_url_decode(encoded: String) -> Result(BitArray, Nil) {
 ///
 @external(erlang, "gleam_stdlib", "base16_encode")
 @external(python, "gleam.bit_array_bindings", "base16_encode")
+@external(rust, "gleam_bit_array_bindings", "base16_encode")
 @external(javascript, "../gleam_stdlib.mjs", "base16_encode")
 pub fn base16_encode(input: BitArray) -> String
 
@@ -195,6 +211,7 @@ pub fn base16_encode(input: BitArray) -> String
 ///
 @external(erlang, "gleam_stdlib", "base16_decode")
 @external(python, "gleam.bit_array_bindings", "base16_decode")
+@external(rust, "gleam_bit_array_bindings", "base16_decode")
 @external(javascript, "../gleam_stdlib.mjs", "base16_decode")
 pub fn base16_decode(input: String) -> Result(BitArray, Nil)
 
@@ -288,6 +305,7 @@ pub fn compare(a: BitArray, with b: BitArray) -> order.Order {
 
 @external(erlang, "gleam_stdlib", "bit_array_to_int_and_size")
 @external(python, "gleam.bit_array_bindings", "bit_array_to_int_and_size")
+@external(rust, "gleam_bit_array_bindings", "bit_array_to_int_and_size")
 @external(javascript, "../gleam_stdlib.mjs", "bit_array_to_int_and_size")
 fn bit_array_to_int_and_size(a: BitArray) -> #(Int, Int)
 

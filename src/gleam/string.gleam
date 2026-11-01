@@ -59,6 +59,7 @@ pub fn is_empty(str: String) -> Bool {
 ///
 @external(erlang, "string", "length")
 @external(python, "gleam.string_bindings", "do_length")
+@external(rust, "gleam_string_bindings", "length")
 @external(javascript, "../gleam_stdlib.mjs", "string_length")
 pub fn length(string: String) -> Int
 
@@ -117,6 +118,7 @@ pub fn replace(
 ///
 @external(erlang, "string", "lowercase")
 @external(python, "gleam.string_bindings", "do_lowercase")
+@external(rust, "gleam_string_bindings", "lowercase")
 @external(javascript, "../gleam_stdlib.mjs", "lowercase")
 pub fn lowercase(string: String) -> String
 
@@ -133,6 +135,7 @@ pub fn lowercase(string: String) -> String
 ///
 @external(erlang, "string", "uppercase")
 @external(python, "gleam.string_bindings", "do_uppercase")
+@external(rust, "gleam_string_bindings", "uppercase")
 @external(javascript, "../gleam_stdlib.mjs", "uppercase")
 pub fn uppercase(string: String) -> String
 
@@ -167,6 +170,7 @@ pub fn compare(a: String, b: String) -> order.Order {
 
 @external(erlang, "gleam_stdlib", "less_than")
 @external(python, "gleam.string_bindings", "less_than")
+@external(rust, "gleam_string_bindings", "less_than")
 @external(javascript, "../gleam_stdlib.mjs", "less_than")
 fn less_than(a: String, b: String) -> Bool
 
@@ -222,11 +226,13 @@ pub fn slice(
 
 @external(erlang, "gleam_stdlib", "slice")
 @external(python, "gleam.string_bindings", "do_slice")
+@external(rust, "gleam_string_bindings", "grapheme_slice")
 @external(javascript, "../gleam_stdlib.mjs", "string_grapheme_slice")
 fn grapheme_slice(string: String, index: Int, length: Int) -> String
 
 @external(erlang, "binary", "part")
 @external(python, "gleam.string_bindings", "unsafe_byte_slice")
+@external(rust, "gleam_string_bindings", "unsafe_byte_slice")
 @external(javascript, "../gleam_stdlib.mjs", "string_byte_slice")
 fn unsafe_byte_slice(string: String, index: Int, length: Int) -> String
 
@@ -242,6 +248,7 @@ fn unsafe_byte_slice(string: String, index: Int, length: Int) -> String
 ///
 @external(erlang, "gleam_stdlib", "crop_string")
 @external(python, "gleam.string_bindings", "crop")
+@external(rust, "gleam_string_bindings", "crop")
 @external(javascript, "../gleam_stdlib.mjs", "crop_string")
 pub fn crop(from string: String, before substring: String) -> String
 
@@ -309,6 +316,7 @@ pub fn drop_end(from string: String, up_to num_graphemes: Int) -> String {
 ///
 @external(erlang, "gleam_stdlib", "contains_string")
 @external(python, "gleam.string_bindings", "contains")
+@external(rust, "gleam_string_bindings", "contains")
 @external(javascript, "../gleam_stdlib.mjs", "contains_string")
 pub fn contains(does haystack: String, contain needle: String) -> Bool
 
@@ -322,6 +330,7 @@ pub fn contains(does haystack: String, contain needle: String) -> Bool
 ///
 @external(erlang, "gleam_stdlib", "string_starts_with")
 @external(python, "gleam.string_bindings", "do_starts_with")
+@external(rust, "gleam_string_bindings", "starts_with")
 @external(javascript, "../gleam_stdlib.mjs", "starts_with")
 pub fn starts_with(string: String, prefix: String) -> Bool
 
@@ -335,6 +344,7 @@ pub fn starts_with(string: String, prefix: String) -> Bool
 ///
 @external(erlang, "gleam_stdlib", "string_ends_with")
 @external(python, "gleam.string_bindings", "do_ends_with")
+@external(rust, "gleam_string_bindings", "ends_with")
 @external(javascript, "../gleam_stdlib.mjs", "ends_with")
 pub fn ends_with(string: String, suffix: String) -> Bool
 
@@ -385,6 +395,7 @@ pub fn split_once(
 }
 
 @external(erlang, "string", "split")
+@external(rust, "gleam_string_bindings", "erl_split")
 @external(python, "gleam.string_bindings", "erl_split")
 fn erl_split(a: String, b: String) -> List(String)
 
@@ -576,6 +587,7 @@ pub fn trim(string: String) -> String {
 }
 
 @external(erlang, "string", "trim")
+@external(rust, "gleam_string_bindings", "erl_trim")
 @external(python, "gleam.string_bindings", "erl_trim")
 fn erl_trim(a: String, b: Direction) -> String
 
@@ -631,6 +643,7 @@ pub fn trim_end(string: String) -> String {
 ///
 @external(erlang, "gleam_stdlib", "string_pop_grapheme")
 @external(python, "gleam.string_bindings", "do_pop_grapheme")
+@external(rust, "gleam_string_bindings", "pop_grapheme")
 @external(javascript, "../gleam_stdlib.mjs", "pop_grapheme")
 pub fn pop_grapheme(string: String) -> Result(#(String, String), Nil)
 
@@ -657,6 +670,7 @@ fn to_graphemes_loop(string: String, acc: List(String)) -> List(String) {
 
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.string_bindings", "unsafe_int_to_utf_codepoint")
+@external(rust, "gleam_string_bindings", "unsafe_int_to_utf_codepoint")
 @external(javascript, "../gleam_stdlib.mjs", "codepoint")
 fn unsafe_int_to_utf_codepoint(a: Int) -> UtfCodepoint
 
@@ -714,11 +728,13 @@ fn do_to_utf_codepoints(string: String) -> List(UtfCodepoint) {
 }
 
 @target(javascript)
+@external(rust, "gleam_string_bindings", "string_to_codepoint_integer_list")
 @external(javascript, "../gleam_stdlib.mjs", "string_to_codepoint_integer_list")
 fn string_to_codepoint_integer_list(string: String) -> List(Int)
 
 @target(python)
 @external(python, "gleam.string_bindings", "string_to_codepoint_integer_list")
+@external(rust, "gleam_string_bindings", "string_to_codepoint_integer_list")
 fn string_to_codepoint_integer_list(string: String) -> List(Int)
 
 @target(python)
@@ -745,6 +761,7 @@ fn do_to_utf_codepoints(string: String) -> List(UtfCodepoint) {
 ///
 @external(erlang, "gleam_stdlib", "utf_codepoint_list_to_string")
 @external(python, "gleam.string_bindings", "from_utf_codepoints")
+@external(rust, "gleam_string_bindings", "from_utf_codepoints")
 @external(javascript, "../gleam_stdlib.mjs", "utf_codepoint_list_to_string")
 pub fn from_utf_codepoints(utf_codepoints: List(UtfCodepoint)) -> String
 
@@ -772,6 +789,7 @@ pub fn utf_codepoint(value: Int) -> Result(UtfCodepoint, Nil) {
 ///
 @external(erlang, "gleam_stdlib", "identity")
 @external(python, "gleam.string_bindings", "do_utf_codepoint_to_int")
+@external(rust, "gleam_string_bindings", "utf_codepoint_to_int")
 @external(javascript, "../gleam_stdlib.mjs", "utf_codepoint_to_int")
 pub fn utf_codepoint_to_int(cp: UtfCodepoint) -> Int
 
@@ -889,6 +907,7 @@ pub fn inspect(term: anything) -> String {
 
 @external(erlang, "gleam_stdlib", "inspect")
 @external(python, "gleam.string_bindings", "do_inspect")
+@external(rust, "gleam_string_bindings", "do_inspect")
 @external(javascript, "../gleam_stdlib.mjs", "inspect")
 fn do_inspect(term: anything) -> StringTree
 
@@ -905,6 +924,7 @@ fn do_inspect(term: anything) -> StringTree
 ///
 @external(erlang, "erlang", "byte_size")
 @external(python, "gleam.string_bindings", "byte_size")
+@external(rust, "gleam_string_bindings", "byte_size")
 @external(javascript, "../gleam_stdlib.mjs", "byte_size")
 pub fn byte_size(string: String) -> Int
 
@@ -925,6 +945,7 @@ pub fn byte_size(string: String) -> Int
 ///
 @external(erlang, "gleam_stdlib", "string_remove_prefix")
 @external(python, "gleam.string_bindings", "remove_prefix")
+@external(rust, "gleam_string_bindings", "remove_prefix")
 @external(javascript, "../gleam_stdlib.mjs", "string_remove_prefix")
 pub fn remove_prefix(from string: String, matching prefix: String) -> String
 
@@ -945,5 +966,6 @@ pub fn remove_prefix(from string: String, matching prefix: String) -> String
 ///
 @external(erlang, "gleam_stdlib", "string_remove_suffix")
 @external(python, "gleam.string_bindings", "remove_suffix")
+@external(rust, "gleam_string_bindings", "remove_suffix")
 @external(javascript, "../gleam_stdlib.mjs", "string_remove_suffix")
 pub fn remove_suffix(from string: String, matching suffix: String) -> String

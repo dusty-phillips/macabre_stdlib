@@ -451,6 +451,7 @@ fn index(
 
 @external(erlang, "gleam_stdlib", "index")
 @external(javascript, "../../gleam_stdlib.mjs", "index")
+@external(rust, "gleam_dynamic_decode_bindings", "bare_index")
 @external(python, "gleam.dynamic_bindings", "bare_index")
 fn bare_index(data: Dynamic, key: anything) -> Result(Option(Dynamic), String)
 
@@ -717,6 +718,7 @@ fn decode_int(data: Dynamic) -> #(Int, List(DecodeError)) {
 
 @external(erlang, "gleam_stdlib", "int")
 @external(javascript, "../../gleam_stdlib.mjs", "int")
+@external(rust, "gleam_dynamic_decode_bindings", "dynamic_int")
 @external(python, "gleam.dynamic_bindings", "dynamic_int")
 fn dynamic_int(data: Dynamic) -> Result(Int, Int)
 
@@ -744,6 +746,7 @@ fn decode_float(data: Dynamic) -> #(Float, List(DecodeError)) {
 
 @external(erlang, "gleam_stdlib", "float")
 @external(javascript, "../../gleam_stdlib.mjs", "float")
+@external(rust, "gleam_dynamic_decode_bindings", "dynamic_float")
 @external(python, "gleam.dynamic_bindings", "dynamic_float")
 fn dynamic_float(data: Dynamic) -> Result(Float, Float)
 
@@ -779,6 +782,7 @@ fn decode_bit_array(data: Dynamic) -> #(BitArray, List(DecodeError)) {
 
 @external(erlang, "gleam_stdlib", "bit_array")
 @external(javascript, "../../gleam_stdlib.mjs", "bit_array")
+@external(rust, "gleam_dynamic_decode_bindings", "dynamic_bit_array")
 @external(python, "gleam.dynamic_bindings", "dynamic_bit_array")
 fn dynamic_bit_array(data: Dynamic) -> Result(BitArray, BitArray)
 
@@ -804,6 +808,7 @@ pub fn list(of inner: Decoder(a)) -> Decoder(List(a)) {
 
 @external(erlang, "gleam_stdlib", "list")
 @external(javascript, "../../gleam_stdlib.mjs", "list")
+@external(rust, "gleam_dynamic_decode_bindings", "decode_list")
 @external(python, "gleam.dynamic_bindings", "decode_list")
 fn decode_list(
   data: Dynamic,
@@ -877,6 +882,7 @@ fn fold_dict(
 
 @external(erlang, "gleam_stdlib", "dict")
 @external(javascript, "../../gleam_stdlib.mjs", "dict")
+@external(rust, "gleam_dynamic_decode_bindings", "decode_dict")
 @external(python, "gleam.dynamic_bindings", "decode_dict")
 fn decode_dict(data: Dynamic) -> Result(Dict(Dynamic, Dynamic), Nil)
 
@@ -1131,10 +1137,12 @@ pub fn recursive(inner: fn() -> Decoder(a)) -> Decoder(a) {
 
 @external(erlang, "gleam_stdlib", "identity")
 @external(javascript, "../../gleam_stdlib.mjs", "identity")
+@external(rust, "gleam_dynamic_decode_bindings", "cast")
 @external(python, "gleam.dynamic_bindings", "cast")
 fn cast(a: anything) -> Dynamic
 
 @external(erlang, "gleam_stdlib", "is_null")
 @external(javascript, "../../gleam_stdlib.mjs", "is_null")
+@external(rust, "gleam_dynamic_decode_bindings", "is_null")
 @external(python, "gleam.dynamic_bindings", "is_null")
 fn is_null(a: Dynamic) -> Bool
